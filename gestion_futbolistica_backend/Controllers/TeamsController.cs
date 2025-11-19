@@ -21,9 +21,8 @@ namespace gestion_futbolistica_backend.Controllers
         public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
         {
             // Usar procedimiento almacenado como requiere el parcial
-            var teams = await _context.Teams
-                .FromSqlRaw("SELECT * FROM sp_getallteams")
-                .AsNoTracking()
+            var teams = await _context.Database
+                .SqlQueryRaw<Team>("EXEC sp_GetAllTeams")
                 .ToListAsync();
 
             return teams;

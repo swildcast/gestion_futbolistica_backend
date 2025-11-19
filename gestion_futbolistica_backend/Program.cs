@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore; // Importante para DbContext
+using Microsoft.EntityFrameworkCore.SqlServer; // Import for SQL Server
 using gestion_futbolistica_backend.Data; // Asegúrate del namespace de tu ApplicationDbContext
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +23,9 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Añade el DbContext configurado para PostgreSQL
+// Añade el DbContext configurado para SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -37,6 +38,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
 app.UseAuthorization(); // Asegura que se verifiquen los permisos (aunque no los uses ahora)
 app.MapControllers(); // Mapea las rutas de los controladores
 

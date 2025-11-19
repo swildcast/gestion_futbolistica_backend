@@ -16,13 +16,12 @@ namespace gestion_futbolistica_backend.Controllers
             _context = context;
         }
 
-        // GET: api/Players - USANDO PROCEDIMIENTO ALMACENADO
+        // GET: api/Players
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
+        public async Task<ActionResult<IEnumerable<PlayerResult>>> GetPlayers()
         {
-            var players = await _context.Players
-                .FromSqlRaw("SELECT * FROM sp_getallplayers")
-                .AsNoTracking()
+            var players = await _context.Database
+                .SqlQueryRaw<PlayerResult>("EXEC sp_GetAllPlayers")
                 .ToListAsync();
 
             return players;
@@ -40,16 +39,6 @@ namespace gestion_futbolistica_backend.Controllers
             }
 
             return player;
-        }
-
-        // POST: api/Players
-        [HttpPost]
-        public async Task<ActionResult<Player>> PostPlayer(Player player)
-        {
-            _context.Players.Add(player);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetPlayer), new { id = player.Id }, player);
         }
 
         // PUT: api/Players/5
@@ -80,6 +69,16 @@ namespace gestion_futbolistica_backend.Controllers
             }
 
             return NoContent();
+        }
+
+        // POST: api/Players
+        [HttpPost]
+        public async Task<ActionResult<Player>> PostPlayer(Player player)
+        {
+            _context.Players.Add(player);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
         }
 
         // DELETE: api/Players/5

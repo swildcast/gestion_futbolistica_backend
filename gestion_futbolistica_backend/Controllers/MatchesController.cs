@@ -16,13 +16,12 @@ namespace gestion_futbolistica_backend.Controllers
             _context = context;
         }
 
-        // GET: api/Matches - USANDO VISTA (PostgreSQL)
+        // GET: api/Matches - USANDO STORED PROCEDURE
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Match>>> GetMatches()
+        public async Task<ActionResult<IEnumerable<MatchResult>>> GetMatches()
         {
-            var matches = await _context.Matches
-                .FromSqlRaw("SELECT * FROM sp_getallmatches") // <-- Correcto: sin paréntesis
-                .AsNoTracking()
+            var matches = await _context.Database
+                .SqlQueryRaw<MatchResult>("EXEC sp_GetAllMatches")
                 .ToListAsync();
 
             return matches;
