@@ -18,10 +18,10 @@ namespace gestion_futbolistica_backend.Controllers
 
         // GET: api/Matches - USANDO STORED PROCEDURE
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MatchResult>>> GetMatches()
+        public async Task<ActionResult<IEnumerable<Match>>> GetMatches()
         {
-            var matches = await _context.Database
-                .SqlQueryRaw<MatchResult>("EXEC sp_GetAllMatches")
+            var matches = await _context.Matches
+                .FromSqlRaw("EXEC sp_GetAllMatches")
                 .ToListAsync();
 
             return matches;

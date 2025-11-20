@@ -18,10 +18,10 @@ namespace gestion_futbolistica_backend.Controllers
 
         // GET: api/Players
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PlayerResult>>> GetPlayers()
+        public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-            var players = await _context.Database
-                .SqlQueryRaw<PlayerResult>("EXEC sp_GetAllPlayers")
+            var players = await _context.Players
+                .FromSqlRaw("EXEC sp_GetAllPlayers")
                 .ToListAsync();
 
             return players;
