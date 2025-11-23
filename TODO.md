@@ -1,0 +1,4 @@
+- [x] Update database name in connection string to lowercase 'gestionfutbolistica'
+- [x] Update password in connection string to 'cecaldas11'
+- [ ] Run dotnet run to test backend connection
+- [ ] Verify backend starts without connection errors
