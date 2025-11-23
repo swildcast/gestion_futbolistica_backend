@@ -1,0 +1,6 @@
+@gestion_futbolistica_backend_HostAddress = http://localhost:5273
+
+GET {{gestion_futbolistica_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
